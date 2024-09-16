@@ -401,6 +401,8 @@ module pulp_soc import dm::*; #(
   assign s_apb_chip_ctrl_bus.pready = apb_chip_ctrl_master_pready_i;
   assign s_apb_chip_ctrl_bus.pslverr = apb_chip_ctrl_master_pslverr_i;
 
+  // dummy_vip
+  dummy_top #() dummy_vip ();
 
   AXI_BUS #(
     .AXI_ADDR_WIDTH ( AXI_ADDR_WIDTH    ),
