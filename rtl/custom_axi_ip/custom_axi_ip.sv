@@ -1,5 +1,5 @@
-'include "/register_interface/typedef.svh"
-'include "/register_interface/assign.svh"
+'`include "/register_interface/typedef.svh"
+`include "/register_interface/assign.svh"
 
 module custom_axi_ip (
     input logic clk,
@@ -8,7 +8,7 @@ module custom_axi_ip (
     // AXI Lite interface
     input wire [31:0] axi_awaddr,   // Write Address
     input wire axi_awvalid,         // Write Address Valid
-    input wire axi_awready,         // Write Address Ready
+    input reg axi_awready,         // Write Address Ready
 
     input wire [31:0] axi_wdata,    // Write Data
     input wire [3:0] axi_wstrb,     // Write Strobe
@@ -17,7 +17,7 @@ module custom_axi_ip (
 
     output reg [1:0] axi_bresp,     // Write Response
     output reg axi_bvalid,          // Write Response Valid
-    input wire axi_bready,          // Write Response Ready
+    input reg axi_bready,          // Write Response Ready
 
     input wire [31:0] axi_araddr,   // Read Address
     input wire axi_arvalid,         // Read Address Valid
@@ -26,7 +26,7 @@ module custom_axi_ip (
     output reg [31:0] axi_rdata,   // Read Data
     output reg [1:0] axi_rresp,    // Read Response
     output reg axi_rvalid,         // Read Data Valid
-    input wire axi_rready,         // Read Data Ready
+    input reg axi_rready          // Read Data Ready
 );
 
     // Define a small group of registers
