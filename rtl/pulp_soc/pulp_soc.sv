@@ -417,6 +417,14 @@ module pulp_soc import dm::*; #(
     .AXI_USER_WIDTH ( AXI_USER_WIDTH    )
   ) s_data_out_bus ();
 
+  // REN YOU ADDED : for the custom bus
+  AXI_BUS #(
+    .AXI_ADDR_WIDTH ( AXI_ADDR_WIDTH    ),
+    .AXI_DATA_WIDTH ( AXI_DATA_OUT_WIDTH),
+    .AXI_ID_WIDTH   ( AXI_ID_OUT_WIDTH  ),
+    .AXI_USER_WIDTH ( AXI_USER_WIDTH    )
+  ) s_custom_bus (); 
+
   //assign s_data_out_bus.aw_atop = 6'b0;
 
   AXI_LITE #(.AXI_ADDR_WIDTH(32), .AXI_DATA_WIDTH(32)) s_periph_bus ();
@@ -806,7 +814,22 @@ module pulp_soc import dm::*; #(
     .axi_lite_peripheral_bus ( s_periph_bus        ),
     .l2_interleaved_slaves   ( s_mem_l2_bus        ),
     .l2_private_slaves       ( s_mem_l2_pri_bus    ),
-    .boot_rom_slave          ( s_mem_rom_bus       )
+    .boot_rom_slave          ( s_mem_rom_bus       ),
+    .custom_axi_ip_slave     ( s_custom_bus        ) // REN YOU ADDED : for the custom bus
+  );
+  
+  // REN YOU ADDED : integrate custom axi ip
+  custom_axi_ip_top #(
+    .AXI_ADDR_WIDTH ( AXI_ADDR_WIDTH    ),
+    .AXI_DATA_WIDTH ( AXI_DATA_OUT_WIDTH),
+    .AXI_ID_WIDTH   ( AXI_ID_OUT_WIDTH  ),
+    .AXI_USER_WIDTH ( AXI_USER_WIDTH    )
+  ) custom_axi_ip_top_i (
+    .clk_i                   ( soc_clk_i           ),
+    .rst_ni                  ( soc_rstn_synced_i   ),
+    .test_en_i               ( dft_test_mode_i     ),
+    .axi_master_plug         ( s_custom_bus        ),
+    .axi_slave_plug          ( s_custom_bus        )
   );
 
   /* Debug Subsystem */

@@ -32,8 +32,14 @@ dependencies:
   hwpe-mac-engine:        { git: "https://github.com/pulp-platform/hwpe-mac-engine.git", version: 1.3.3 }
   riscv-dbg:              { git: "https://github.com/pulp-platform/riscv-dbg.git", version: 0.5.0 }
   register_interface:     { git: "https://github.com/pulp-platform/register_interface.git", version: 0.4.1 }
+  dummy_vip:              { git: "https://github.com/pulp-training/dummy_vip.git"}
 
 sources:
+  # custom_axi_ip
+  - files:
+      - rtl/custom_axi_ip/custom_axi_ip.sv
+      - rtl/custom_axi_ip/custom_axi_ip_top.sv
+
   # pulp_soc
   - include_dirs:
       - rtl/include
