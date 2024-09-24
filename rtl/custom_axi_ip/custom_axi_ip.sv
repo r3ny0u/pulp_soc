@@ -8,12 +8,12 @@ module custom_axi_ip (
     // AXI Lite interface
     input wire [31:0] axi_awaddr,   // Write Address
     input wire axi_awvalid,         // Write Address Valid
-    input reg axi_awready,         // Write Address Ready
+    output reg axi_awready,         // Write Address Ready
 
     input wire [31:0] axi_wdata,    // Write Data
     input wire [3:0] axi_wstrb,     // Write Strobe
     input wire axi_wvalid,          // Write Data Valid
-    input reg axi_wready,           // Write Data Ready
+    output reg axi_wready,           // Write Data Ready
 
     output reg [1:0] axi_bresp,     // Write Response
     output reg axi_bvalid,          // Write Response Valid
@@ -21,7 +21,7 @@ module custom_axi_ip (
 
     input wire [31:0] axi_araddr,   // Read Address
     input wire axi_arvalid,         // Read Address Valid
-    input reg axi_arready,          // Read Address Ready
+    output reg axi_arready,          // Read Address Ready
 
     output reg [31:0] axi_rdata,   // Read Data
     output reg [1:0] axi_rresp,    // Read Response
@@ -46,14 +46,15 @@ module custom_axi_ip (
             reg1 <= 32'h0;
             reg2 <= 32'h0;
         end else begin
-            // Handle write Address and Data
-            if (axi_awvalid && !axi_awready) begin
+            // Handle write Address
+            if (axi_awvalid && !axi_awready && !axi_wready) begin
                 axi_awready <= 1'b1;
             end else begin
                 axi_awready <= 1'b0;
             end
 
-            if (axi_wvalid && axi_awready &&!axi_wready) begin
+            // Handle write Data
+            if (axi_wvalid && axi_awready && !axi_wready) begin
                 axi_wready <= 1'b1;
                 case (axi_awaddr)
                     32'h0: reg0 <= axi_wdata;
@@ -72,13 +73,14 @@ module custom_axi_ip (
                 axi_bvalid <= 1'b0;
             end
 
-            // Handle read Address and Data
+            // Handle read Address
             if (axi_arvalid && !axi_arready) begin
                 axi_arready <= 1'b1;
             end else begin
                 axi_arready <= 1'b0;
             end
 
+            // Handle read Data
             if (axi_arready && axi_arvalid && !axi_rvalid) begin
                 axi_rvalid <= 1'b1;
                 axi_rresp <= 2'b0; // OKAY response
@@ -93,5 +95,6 @@ module custom_axi_ip (
             end
         end
     end
+
 
 endmodule
