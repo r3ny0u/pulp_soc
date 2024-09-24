@@ -1,4 +1,4 @@
-'`include "/register_interface/typedef.svh"
+`include "/register_interface/typedef.svh"
 `include "/register_interface/assign.svh"
 
 module custom_axi_ip (
