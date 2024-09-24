@@ -829,9 +829,8 @@ module pulp_soc import dm::*; #(
   ) custom_axi_ip_top_i (
     .clk_i                   ( soc_clk_i           ),
     .rst_ni                  ( soc_rstn_synced_i   ),
-    .test_en_i               ( dft_test_mode_i     ),
-    .axi_master_plug         ( s_custom_bus        ),
-    .axi_slave_plug          ( s_custom_bus        )
+    .test_mode_i               ( dft_test_mode_i     ),
+    .axi_slave         ( s_custom_bus        )
   );
 
   /* Debug Subsystem */
