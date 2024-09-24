@@ -56,7 +56,7 @@ module soc_interconnect_wrap
      AXI_LITE.Master          axi_lite_peripheral_bus,            // Connects to all the SoC Peripherals
      XBAR_TCDM_BUS.Master     l2_interleaved_slaves[NR_L2_PORTS], // Connects to the interleaved memory banks
      XBAR_TCDM_BUS.Master     l2_private_slaves[2],               // Connects to core-private memory banks
-     XBAR_TCDM_BUS.Master     boot_rom_slave                      // Connects to the bootrom
+     XBAR_TCDM_BUS.Master     boot_rom_slave,                      // Connects to the bootrom
      AXI_BUS.Master           custom_axi_ip_slave                 // REN YOU ADDED : Connects to the custom IP
    );
 
