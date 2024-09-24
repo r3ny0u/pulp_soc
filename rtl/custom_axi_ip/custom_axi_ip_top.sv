@@ -1,7 +1,9 @@
 module custom_axi_ip_top
     #(
-        parameter int unsigned ADDR_WIDTH = 32,
-        parameter int unsigned DATA_WIDTH = 32
+        parameter int unsigned AXI_ADDR_WIDTH = 32,
+        parameter int unsigned AXI_DATA_WIDTH = 32,
+        parameter int unsigned AXI_ID_WIDTH,
+        parameter int unsigned AXI_USER_WIDTH
     )
     (
         input logic clk_i,        // Clock input
