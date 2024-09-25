@@ -59,7 +59,7 @@ module custom_axi_ip_top
 
         //From the protocol converters to regfile
         .reg_req_i(to_reg_file_req),
-        .reg_rsp_o(from_reg_file_rsp)
+        .reg_rsp_o(from_reg_file_rsp),
 
         //Signals to custom axi ip
         .reg2hw(reg_file_to_ip),
