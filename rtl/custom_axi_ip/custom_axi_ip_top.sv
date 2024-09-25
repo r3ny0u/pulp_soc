@@ -66,14 +66,30 @@ module custom_axi_ip_top
         .hw2reg(ip_to_reg_file)
     );
 
+    // wiring signals between control unit and custom axi ip
+    wire logic [2:0] reg2ip_data;
+    wire logic [2:0] reg2ip_en;
+    wire logic [2:0] ip2reg_data;
+    wire logic [2:0] ip2reg_en;
+
+    assign reg2ip_data = {reg_file_to_ip.reg0[0].q, reg_file_to_ip.reg1[0].q, reg_file_to_ip.reg2[0].q};
+    assign reg2ip_en = {reg_file_to_ip.reg0[0].de, reg_file_to_ip.reg1[0].de, reg_file_to_ip.reg2[0].de};
+
     // Instantiate the custom AXI IP
     custom_axi_ip i_custom_axi_ip (
         .clk_i(clk_i),
         .rst_ni(rst_ni),
 
         // Register to Hardware interface
-        .reg2hw(ip_to_reg_file),
-        .hw2reg(reg_file_to_ip)
+        .reg2ip(reg_file_to_ip),
+        .ip2reg(ip_to_reg_file)
     );
+
+    assign ip_to_reg_file.reg0[0].d = ip2reg_data[0];
+    assign ip_to_reg_file.reg1[0].d = ip2reg_data[1];
+    assign ip_to_reg_file.reg2[0].d = ip2reg_data[2];
+    assign ip_to_reg_file.reg0[0].de = ip2reg_en[0];
+    assign ip_to_reg_file.reg1[0].de = ip2reg_en[1];
+    assign ip_to_reg_file.reg2[0].de = ip2reg_en[2];
 
 endmodule

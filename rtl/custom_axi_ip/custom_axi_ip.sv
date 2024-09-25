@@ -3,8 +3,10 @@ module custom_axi_ip (
     input logic rst_ni,
 
     // Register to Hardware interface
-    input custom_axi_ip_reg2hw_t reg2hw,
-    output custom_axi_ip_reg2hw_t hw2reg
+    input logic [2:0] reg2ip_data,
+    input logic [2:0] reg2ip_en,
+    output logic [2:0] ip2reg_data,
+    output logic [2:0] ip2reg_en
 );
 
     // Internal registers to store data
@@ -20,21 +22,21 @@ module custom_axi_ip (
             reg1 <= 32'h0;
             reg2 <= 32'h0;
         end else begin
-            // Write to registers based on reg2hw inputs
-            if (reg2hw.reg0[0].de) reg0 <= reg2hw.reg0[0].q;
-            if (reg2hw.reg1[0].de) reg1 <= reg2hw.reg1[0].q;
-            if (reg2hw.reg2[0].de) reg2 <= reg2hw.reg2[0].q;
+            // Write to registers based on reg2ip inputs
+            if (reg2ip_en[0]) reg0 <= reg2ip_data[0];
+            if (reg2ip_en[1]) reg1 <= reg2ip_data[1];
+            if (reg2ip_en[2]) reg2 <= reg2ip_data[2];
         end
     end
 
-    // Read logic would populate hw2reg based on internal state
+    // Read logic would populate ip2reg based on internal state
     always_ff @(posedge clk_i) begin
-        hw2reg.reg0[0].d <= reg0;
-        hw2reg.reg0[0].de <= 1'b1; // Set data ready flag
-        hw2reg.reg1[0].d <= reg1;
-        hw2reg.reg1[0].de <= 1'b1;
-        hw2reg.reg2[0].d <= reg2;
-        hw2reg.reg2[0].de <= 1'b1;
+        ip2reg_data[0] <= reg0;
+        ip2reg_en[0] <= 1'b1; // Set data ready flag
+        ip2reg_data[1] <= reg1;
+        ip2reg_en[1] <= 1'b1;
+        ip2reg_data[2] <= reg2;
+        ip2reg_en[2] <= 1'b1;
     end
 
 endmodule
