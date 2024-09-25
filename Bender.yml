@@ -37,6 +37,8 @@ dependencies:
 sources:
   # custom_axi_ip
   - files:
+      - rtl/custom_axi_ip/gen_sv/custom_axi_ip_pkg.sv
+      - rtl/custom_axi_ip/gen_sv/custom_axi_ip_top.sv
       - rtl/custom_axi_ip/custom_axi_ip.sv
       - rtl/custom_axi_ip/custom_axi_ip_top.sv
 

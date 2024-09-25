@@ -4,7 +4,7 @@ module custom_axi_ip (
 
     // Register to Hardware interface
     input logic reg2hw,
-    output logic hw2reg,
+    output logic hw2reg
 );
 
     // Internal registers to store data
