@@ -41,13 +41,13 @@ module custom_axi_ip_top
     typedef logic [AXI_ADDR_WIDTH-1:0] addr_t;
     typedef logic [AXI_DATA_WIDTH-1:0] data_t;
     typedef logic [AXI_ID_WIDTH/8-1:0] strb_t;
-    `REG_BUS_TYPEDEF_REG(reg_req_t, addr_t, data_t, strb_t);
-    `REG_BUS_TYPEDEF_REG(reg_rsp_t, data_t);
+    `REG_BUS_TYPEDEF_REQ(reg_req_t, addr_t, data_t, strb_t);
+    `REG_BUS_TYPEDEF_RSP(reg_rsp_t, data_t);
     reg_req_t to_reg_file_req;
     reg_rsp_t from_reg_file_rsp;
 
-    `REG_BUS_ASSIGN_TO_REG(to_reg_file_req, axi_to_regfile);
-    `REG_BUS_ASSIGN_FROM_REG(axi_to_regfile, from_reg_file_rsp);
+    `REG_BUS_ASSIGN_TO_REQ(to_reg_file_req, axi_to_regfile);
+    `REG_BUS_ASSIGN_FROM_RSP(axi_to_regfile, from_reg_file_rsp);
 
     custom_axi_ip_reg_top #(
         .reg_req_t(reg_req_t),
