@@ -3,8 +3,8 @@ module custom_axi_ip (
     input logic rst_ni,
 
     // Register to Hardware interface
-    input logic reg2hw,
-    output logic hw2reg
+    input custom_axi_ip_reg2hw_t reg2hw,
+    output custom_axi_ip_reg2hw_t hw2reg
 );
 
     // Internal registers to store data
