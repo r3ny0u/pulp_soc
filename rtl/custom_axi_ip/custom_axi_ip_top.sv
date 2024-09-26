@@ -34,6 +34,7 @@ module custom_axi_ip_top
     ) i_axi2reg (
         .clk_i(clk_i),
         .rst_ni(rst_ni),
+        .test_mode_i(test_mode_i),
         .in(axi_slave),
         .reg_o(axi_to_regfile)
     );
@@ -88,7 +89,7 @@ module custom_axi_ip_top
         // Register to Hardware interface
         .reg2ip_data(reg2ip_data),
         .reg2ip_en(reg2ip_en),
-        .ip2reg_data(ip_to_reg_file),
+        .ip2reg_data(ip2reg_data),
         .ip2reg_en(ip2reg_en)
     );
 
