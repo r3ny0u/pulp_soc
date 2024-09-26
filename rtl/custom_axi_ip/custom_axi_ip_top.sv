@@ -26,10 +26,11 @@ module custom_axi_ip_top
     custom_axi_ip_hw2reg_t ip_to_reg_file;
 
     axi_to_reg_intf #(
-        .AXI_ADDR_WIDTH(AXI_ADDR_WIDTH),
-        .AXI_DATA_WIDTH(AXI_DATA_WIDTH),
-        .AXI_ID_WIDTH(AXI_ID_WIDTH),
-        .AXI_USER_WIDTH(AXI_USER_WIDTH)
+        .ADDR_WIDTH(AXI_ADDR_WIDTH),
+        .DATA_WIDTH(AXI_DATA_WIDTH),
+        .ID_WIDTH(AXI_ID_WIDTH),
+        .USER_WIDTH(AXI_USER_WIDTH),
+        .DECOUPLE_W(0)
     ) i_axi2reg (
         .clk_i(clk_i),
         .rst_ni(rst_ni),
