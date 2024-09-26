@@ -19,11 +19,19 @@
                 cname: "REGs",
                 swaccess: "rw",     // Software access: read/write
                 hwaccess: "hrw",    // Hardware access: read/write
-                hwqe: "true",
                 fields: [
                     { bits: "31:0" }  // Register field definition
                 ]
             },
         },
+        {
+            name: "ENABLE",
+            desc: "Enable register",
+            swaccess: "rw",
+            hwaccess: "hrw",
+            fields: [
+                { bits: "2:0" }
+            ]
+        }
     ]
 }

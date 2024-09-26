@@ -77,9 +77,7 @@ module custom_axi_ip_top
     assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
     assign reg2ip_data[1] = reg_file_to_ip.regs[1].q;
     assign reg2ip_data[2] = reg_file_to_ip.regs[2].q;
-    assign reg2ip_en[0] = reg_file_to_ip.regs[0].qe;
-    assign reg2ip_en[1] = reg_file_to_ip.regs[1].qe;
-    assign reg2ip_en[2] = reg_file_to_ip.regs[2].qe;
+    assign reg2ip_en = reg_file_to_ip.enable.q;
 
     // Instantiate the custom AXI IP
     custom_axi_ip i_custom_axi_ip (
