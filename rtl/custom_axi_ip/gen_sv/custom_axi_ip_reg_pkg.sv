@@ -11,58 +11,44 @@ package custom_axi_ip_reg_pkg;
   ////////////////////////////
   // Typedefs for registers //
   ////////////////////////////
-  typedef struct packed {logic [31:0] q;} custom_axi_ip_reg2hw_reg0_mreg_t;
 
-  typedef struct packed {logic [31:0] q;} custom_axi_ip_reg2hw_reg1_mreg_t;
-
-  typedef struct packed {logic [31:0] q;} custom_axi_ip_reg2hw_reg2_mreg_t;
+  typedef struct packed {
+    logic [31:0] q;
+    logic        qe;
+  } custom_axi_ip_reg2hw_regs_mreg_t;
 
   typedef struct packed {
     logic [31:0] d;
     logic        de;
-  } custom_axi_ip_hw2reg_reg0_mreg_t;
-
-  typedef struct packed {
-    logic [31:0] d;
-    logic        de;
-  } custom_axi_ip_hw2reg_reg1_mreg_t;
-
-  typedef struct packed {
-    logic [31:0] d;
-    logic        de;
-  } custom_axi_ip_hw2reg_reg2_mreg_t;
+  } custom_axi_ip_hw2reg_regs_mreg_t;
 
   // Register -> HW type
   typedef struct packed {
-    custom_axi_ip_reg2hw_reg0_mreg_t [0:0] reg0;  // [95:64]
-    custom_axi_ip_reg2hw_reg1_mreg_t [0:0] reg1;  // [63:32]
-    custom_axi_ip_reg2hw_reg2_mreg_t [0:0] reg2;  // [31:0]
+    custom_axi_ip_reg2hw_regs_mreg_t [2:0] regs; // [98:0]
   } custom_axi_ip_reg2hw_t;
 
   // HW -> register type
   typedef struct packed {
-    custom_axi_ip_hw2reg_reg0_mreg_t [0:0] reg0;  // [98:66]
-    custom_axi_ip_hw2reg_reg1_mreg_t [0:0] reg1;  // [65:33]
-    custom_axi_ip_hw2reg_reg2_mreg_t [0:0] reg2;  // [32:0]
+    custom_axi_ip_hw2reg_regs_mreg_t [2:0] regs; // [98:0]
   } custom_axi_ip_hw2reg_t;
 
   // Register offsets
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REG0_OFFSET = 4'h0;
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REG1_OFFSET = 4'h4;
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REG2_OFFSET = 4'h8;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_0_OFFSET = 4'h 0;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_1_OFFSET = 4'h 4;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_2_OFFSET = 4'h 8;
 
   // Register index
   typedef enum int {
-    CUSTOM_AXI_IP_REG0,
-    CUSTOM_AXI_IP_REG1,
-    CUSTOM_AXI_IP_REG2
+    CUSTOM_AXI_IP_REGS_0,
+    CUSTOM_AXI_IP_REGS_1,
+    CUSTOM_AXI_IP_REGS_2
   } custom_axi_ip_id_e;
 
   // Register width information to check illegal writes
-  parameter logic [3:0] CUSTOM_AXI_IP_PERMIT[3] = '{
-      4'b1111,  // index[0] CUSTOM_AXI_IP_REG0
-      4'b1111,  // index[1] CUSTOM_AXI_IP_REG1
-      4'b1111  // index[2] CUSTOM_AXI_IP_REG2
+  parameter logic [3:0] CUSTOM_AXI_IP_PERMIT [3] = '{
+    4'b 1111, // index[0] CUSTOM_AXI_IP_REGS_0
+    4'b 1111, // index[1] CUSTOM_AXI_IP_REGS_1
+    4'b 1111  // index[2] CUSTOM_AXI_IP_REGS_2
   };
 
 endpackage

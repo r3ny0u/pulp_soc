@@ -13,42 +13,17 @@
     registers: [
         { 
             multireg: {
-                name: "REG0",
-                desc: "First custom register",
-                count: "1",
-                cname: "REG0",
+                name: "REGs",
+                desc: "Custom register",
+                count: "3",
+                cname: "REGs",
                 swaccess: "rw",     // Software access: read/write
                 hwaccess: "hrw",    // Hardware access: read/write
+                hwqe: "true",
                 fields: [
                     { bits: "31:0" }  // Register field definition
                 ]
-            }
+            },
         },
-        { 
-            multireg: {
-                name: "REG1",
-                desc: "Second custom register",
-                count: "1",
-                cname: "REG1",
-                swaccess: "rw",
-                hwaccess: "hrw",
-                fields: [
-                    { bits: "31:0" }
-                ]
-            }
-        },
-        { 
-            multireg: {
-                name: "REG2",
-                desc: "Third custom register",
-                count: "1",
-                cname: "REG2",
-                swaccess: "rw",
-                hwaccess: "hrw",
-                fields: [
-                    { bits: "31:0" }
-                ]
-            }
-        }
     ]
 }

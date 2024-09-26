@@ -72,8 +72,12 @@ module custom_axi_ip_top
     wire logic [2:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
 
-    assign reg2ip_data = {reg_file_to_ip.reg0[0].q, reg_file_to_ip.reg1[0].q, reg_file_to_ip.reg2[0].q};
-    assign reg2ip_en = {reg_file_to_ip.reg0[0].de, reg_file_to_ip.reg1[0].de, reg_file_to_ip.reg2[0].de};
+    assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
+    assign reg2ip_data[1] = reg_file_to_ip.regs[1].q;
+    assign reg2ip_data[2] = reg_file_to_ip.regs[2].q;
+    assign reg2ip_en[0] = reg_file_to_ip.regs[0].qe;
+    assign reg2ip_en[1] = reg_file_to_ip.regs[1].qe;
+    assign reg2ip_en[2] = reg_file_to_ip.regs[2].qe;
 
     // Instantiate the custom AXI IP
     custom_axi_ip i_custom_axi_ip (
@@ -81,15 +85,15 @@ module custom_axi_ip_top
         .rst_ni(rst_ni),
 
         // Register to Hardware interface
-        .reg2ip(reg_file_to_ip),
-        .ip2reg(ip_to_reg_file)
+        .reg2ip_data(reg2ip_data),
+        .ip2reg_data(ip_to_reg_file)
     );
 
-    assign ip_to_reg_file.reg0[0].d = ip2reg_data[0];
-    assign ip_to_reg_file.reg1[0].d = ip2reg_data[1];
-    assign ip_to_reg_file.reg2[0].d = ip2reg_data[2];
-    assign ip_to_reg_file.reg0[0].de = ip2reg_en[0];
-    assign ip_to_reg_file.reg1[0].de = ip2reg_en[1];
-    assign ip_to_reg_file.reg2[0].de = ip2reg_en[2];
+    assign ip_to_reg_file.regs[0].d = ip2reg_data[0];
+    assign ip_to_reg_file.regs[1].d = ip2reg_data[1];
+    assign ip_to_reg_file.regs[2].d = ip2reg_data[2];
+    assign ip_to_reg_file.regs[0].de = ip2reg_en[0];
+    assign ip_to_reg_file.regs[1].de = ip2reg_en[1];
+    assign ip_to_reg_file.regs[2].de = ip2reg_en[2];
 
 endmodule

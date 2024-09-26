@@ -15,10 +15,10 @@ module custom_axi_ip_reg_top #(
     input logic rst_ni,
     input reg_req_t reg_req_i,
     output reg_rsp_t reg_rsp_o,
-
     // To HW
     output custom_axi_ip_reg_pkg::custom_axi_ip_reg2hw_t reg2hw,  // Write
-    input  custom_axi_ip_reg_pkg::custom_axi_ip_hw2reg_t hw2reg,  // Read
+    input custom_axi_ip_reg_pkg::custom_axi_ip_hw2reg_t hw2reg,  // Read
+
 
     // Config
     input devmode_i  // If 1, explicit error return for unmapped register access
@@ -64,105 +64,105 @@ module custom_axi_ip_reg_top #(
   // Define SW related signals
   // Format: <reg>_<field>_{wd|we|qs}
   //        or <reg>_{wd|we|qs} if field == 1 or 0
-  logic [31:0] reg0_qs;
-  logic [31:0] reg0_wd;
-  logic reg0_we;
-  logic [31:0] reg1_qs;
-  logic [31:0] reg1_wd;
-  logic reg1_we;
-  logic [31:0] reg2_qs;
-  logic [31:0] reg2_wd;
-  logic reg2_we;
+  logic [31:0] regs_0_qs;
+  logic [31:0] regs_0_wd;
+  logic regs_0_we;
+  logic [31:0] regs_1_qs;
+  logic [31:0] regs_1_wd;
+  logic regs_1_we;
+  logic [31:0] regs_2_qs;
+  logic [31:0] regs_2_wd;
+  logic regs_2_we;
 
   // Register instances
 
-  // Subregister 0 of Multireg reg0
-  // R[reg0]: V(False)
+  // Subregister 0 of Multireg regs
+  // R[regs_0]: V(False)
 
   prim_subreg #(
       .DW      (32),
       .SWACCESS("RW"),
       .RESVAL  (32'h0)
-  ) u_reg0 (
+  ) u_regs_0 (
       .clk_i (clk_i),
       .rst_ni(rst_ni),
 
       // from register interface
-      .we(reg0_we),
-      .wd(reg0_wd),
+      .we(regs_0_we),
+      .wd(regs_0_wd),
 
       // from internal hardware
-      .de(hw2reg.reg0[0].de),
-      .d (hw2reg.reg0[0].d),
+      .de(hw2reg.regs[0].de),
+      .d (hw2reg.regs[0].d),
 
       // to internal hardware
-      .qe(),
-      .q (reg2hw.reg0[0].q),
+      .qe(reg2hw.regs[0].qe),
+      .q (reg2hw.regs[0].q),
 
       // to register interface (read)
-      .qs(reg0_qs)
+      .qs(regs_0_qs)
   );
 
-  // Subregister 0 of Multireg reg1
-  // R[reg1]: V(False)
+  // Subregister 1 of Multireg regs
+  // R[regs_1]: V(False)
 
   prim_subreg #(
       .DW      (32),
       .SWACCESS("RW"),
       .RESVAL  (32'h0)
-  ) u_reg1 (
+  ) u_regs_1 (
       .clk_i (clk_i),
       .rst_ni(rst_ni),
 
       // from register interface
-      .we(reg1_we),
-      .wd(reg1_wd),
+      .we(regs_1_we),
+      .wd(regs_1_wd),
 
       // from internal hardware
-      .de(hw2reg.reg1[0].de),
-      .d (hw2reg.reg1[0].d),
+      .de(hw2reg.regs[1].de),
+      .d (hw2reg.regs[1].d),
 
       // to internal hardware
-      .qe(),
-      .q (reg2hw.reg1[0].q),
+      .qe(reg2hw.regs[1].qe),
+      .q (reg2hw.regs[1].q),
 
       // to register interface (read)
-      .qs(reg1_qs)
+      .qs(regs_1_qs)
   );
 
-  // Subregister 0 of Multireg reg2
-  // R[reg2]: V(False)
+  // Subregister 2 of Multireg regs
+  // R[regs_2]: V(False)
 
   prim_subreg #(
       .DW      (32),
       .SWACCESS("RW"),
       .RESVAL  (32'h0)
-  ) u_reg2 (
+  ) u_regs_2 (
       .clk_i (clk_i),
       .rst_ni(rst_ni),
 
       // from register interface
-      .we(reg2_we),
-      .wd(reg2_wd),
+      .we(regs_2_we),
+      .wd(regs_2_wd),
 
       // from internal hardware
-      .de(hw2reg.reg2[0].de),
-      .d (hw2reg.reg2[0].d),
+      .de(hw2reg.regs[2].de),
+      .d (hw2reg.regs[2].d),
 
       // to internal hardware
-      .qe(),
-      .q (reg2hw.reg2[0].q),
+      .qe(reg2hw.regs[2].qe),
+      .q (reg2hw.regs[2].q),
 
       // to register interface (read)
-      .qs(reg2_qs)
+      .qs(regs_2_qs)
   );
 
   logic [2:0] addr_hit;
   always_comb begin
     addr_hit = '0;
-    addr_hit[0] = (reg_addr == CUSTOM_AXI_IP_REG0_OFFSET);
-    addr_hit[1] = (reg_addr == CUSTOM_AXI_IP_REG1_OFFSET);
-    addr_hit[2] = (reg_addr == CUSTOM_AXI_IP_REG2_OFFSET);
+    addr_hit[0] = (reg_addr == CUSTOM_AXI_IP_REGS_0_OFFSET);
+    addr_hit[1] = (reg_addr == CUSTOM_AXI_IP_REGS_1_OFFSET);
+    addr_hit[2] = (reg_addr == CUSTOM_AXI_IP_REGS_2_OFFSET);
   end
 
   assign addrmiss = (reg_re || reg_we) ? ~|addr_hit : 1'b0;
@@ -175,27 +175,29 @@ module custom_axi_ip_reg_top #(
                (addr_hit[2] & (|(CUSTOM_AXI_IP_PERMIT[2] & ~reg_be)))));
   end
 
-  assign reg0_we = addr_hit[0] & reg_we & !reg_error;
-  assign reg0_wd = reg_wdata[31:0];
-  assign reg1_we = addr_hit[1] & reg_we & !reg_error;
-  assign reg1_wd = reg_wdata[31:0];
-  assign reg2_we = addr_hit[2] & reg_we & !reg_error;
-  assign reg2_wd = reg_wdata[31:0];
+  assign regs_0_we = addr_hit[0] & reg_we & !reg_error;
+  assign regs_0_wd = reg_wdata[31:0];
+
+  assign regs_1_we = addr_hit[1] & reg_we & !reg_error;
+  assign regs_1_wd = reg_wdata[31:0];
+
+  assign regs_2_we = addr_hit[2] & reg_we & !reg_error;
+  assign regs_2_wd = reg_wdata[31:0];
 
   // Read data return
   always_comb begin
     reg_rdata_next = '0;
     unique case (1'b1)
       addr_hit[0]: begin
-        reg_rdata_next[31:0] = reg0_qs;
+        reg_rdata_next[31:0] = regs_0_qs;
       end
 
       addr_hit[1]: begin
-        reg_rdata_next[31:0] = reg1_qs;
+        reg_rdata_next[31:0] = regs_1_qs;
       end
 
       addr_hit[2]: begin
-        reg_rdata_next[31:0] = reg2_qs;
+        reg_rdata_next[31:0] = regs_2_qs;
       end
 
       default: begin
