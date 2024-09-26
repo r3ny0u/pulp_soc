@@ -86,7 +86,9 @@ module custom_axi_ip_top
 
         // Register to Hardware interface
         .reg2ip_data(reg2ip_data),
-        .ip2reg_data(ip_to_reg_file)
+        .reg2ip_en(reg2ip_en),
+        .ip2reg_data(ip_to_reg_file),
+        .ip2reg_en(ip2reg_en)
     );
 
     assign ip_to_reg_file.regs[0].d = ip2reg_data[0];

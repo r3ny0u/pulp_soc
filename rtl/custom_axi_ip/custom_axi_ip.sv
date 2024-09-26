@@ -4,6 +4,7 @@ module custom_axi_ip (
 
     // Register to Hardware interface
     input  logic [2:0] reg2ip_data,
+    input  logic [2:0] reg2ip_en,
     output logic [2:0] ip2reg_data,
     output logic [2:0] ip2reg_en
 );
