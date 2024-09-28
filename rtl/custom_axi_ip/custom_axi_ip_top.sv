@@ -76,9 +76,11 @@ module custom_axi_ip_top
     wire logic [2:0] ip2reg_en;
     wire logic [2:0] done_o;
 
+    $display("reg2ip_data: %h", reg_file_to_ip.regs[0].q);
+
     assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
-    assign reg2ip_data[1] = reg_file_to_ip.regs[1].q;
-    assign reg2ip_data[2] = reg_file_to_ip.regs[2].q;
+    assign reg2ip_data[1] = reg_file_to_ip.regs[0].q;
+    assign reg2ip_data[2] = reg_file_to_ip.regs[0].q;
     assign reg2ip_en_in = reg_file_to_ip.enable.q;
 
     // Instantiate the custom AXI IP
