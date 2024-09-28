@@ -24,10 +24,21 @@ module custom_axi_ip (
     end else begin
       // Write to registers based on reg2ip inputs
       $display("reg2ip_en: %b", reg2ip_en[2:0]);
-      if (reg2ip_en[0]) reg0 <= reg2ip_data[0];
-      $display("reg1: %b", reg1);
-      if (reg2ip_en[1]) reg1 <= reg2ip_data[1];
-      if (reg2ip_en[2]) reg2 <= reg2ip_data[2];
+      if (reg2ip_en[0]) begin
+        reg0 <= reg2ip_data[0];
+        reg2ip_en[0] <= 0;  // Clear data ready flag
+        $display("reg0: %b", reg0);
+      end
+      if (reg2ip_en[1]) begin 
+        reg1 <= reg2ip_data[1];
+        reg2ip_en[1] <= 0;
+        $display("reg1: %b", reg1);
+      end
+      if (reg2ip_en[2]) begin 
+        reg2 <= reg2ip_data[2];
+        reg2ip_en[2] <= 0;
+        $display("reg2: %b", reg2);
+      end
     end
   end
 
