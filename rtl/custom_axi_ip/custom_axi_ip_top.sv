@@ -70,7 +70,7 @@ module custom_axi_ip_top
 
     // wiring signals between control unit and custom axi ip
     wire logic [2:0] reg2ip_data;
-    wire logic [2:0] reg2ip_en;
+    reg logic [2:0] reg2ip_en;
     wire logic [2:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
 
