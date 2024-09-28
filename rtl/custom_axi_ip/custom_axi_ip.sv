@@ -18,8 +18,6 @@ module custom_axi_ip (
   logic [31:0] reg4 = 32'h369C;
   logic [31:0] reg5 = 32'h48D0;
 
-  assign reg2ip_en_out = 3'b0;
-
   // Write logic for registers
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -27,6 +25,7 @@ module custom_axi_ip (
       reg0 <= 32'h0;
       reg1 <= 32'h0;
       reg2 <= 32'h0;
+      reg2ip_en_out <= 3'b0;
     end else begin
       // $display("reg2ip_en_in: %h", reg2ip_en_in);
       // $display("reg2ip_en_out: %h", reg2ip_en_out);
