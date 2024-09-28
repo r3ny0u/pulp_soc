@@ -98,4 +98,18 @@ module custom_axi_ip_top
     assign ip_to_reg_file.regs[1].de = ip2reg_en[1];
     assign ip_to_reg_file.regs[2].de = ip2reg_en[2];
 
+    // Control logic to reset the enable signal
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+        if (!rst_ni) begin
+            reg2ip_en <= 3'b0;  // Reset enable signal
+        end else begin
+            reg2ip_en <= reg_file_to_ip.enable.q;  // Capture enable signal from reg file
+
+            // Reset enable after a clock cycle (or based on your transaction completion condition)
+            if (reg2ip_en != 3'b0) begin
+                reg2ip_en <= 3'b0;  // Clear after using it
+            end
+        end
+    end
+
 endmodule
