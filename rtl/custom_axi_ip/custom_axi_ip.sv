@@ -63,7 +63,7 @@ module custom_axi_ip
   always_ff @(posedge clk_i) begin
     if (reg2ip_en_in[2:0] == 3'b000) begin
       ip2reg_data <= {reg3, 1'b0, reg4, 1'b0, reg5, 1'b0};
-      $display("ip2reg_data: %h", {reg3, 1'b1, reg4, 1'b1, reg5, 1'b1});
+      // $display("ip2reg_data: %h", {reg3, 1'b1, reg4, 1'b1, reg5, 1'b1});
     end
   end
 
