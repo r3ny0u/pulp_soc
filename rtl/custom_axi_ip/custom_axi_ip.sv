@@ -25,6 +25,7 @@ module custom_axi_ip (
       // Write to registers based on reg2ip inputs
       $display("reg2ip_en: %b", reg2ip_en[2:0]);
       if (reg2ip_en[0]) reg0 <= reg2ip_data[0];
+      $display("reg1: %b", reg1);
       if (reg2ip_en[1]) reg1 <= reg2ip_data[1];
       if (reg2ip_en[2]) reg2 <= reg2ip_data[2];
     end
