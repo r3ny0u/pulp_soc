@@ -18,13 +18,13 @@ module custom_axi_ip (
   logic [31:0] reg4 = 32'h369C;
   logic [31:0] reg5 = 32'h48D0;
 
-  // Write logic for registers
+  // Read
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       // Reset all registers
-      reg0 <= 32'h0;
-      reg1 <= 32'h0;
-      reg2 <= 32'h0;
+      // reg0 <= 32'h0;
+      // reg1 <= 32'h0;
+      // reg2 <= 32'h0;
       reg2ip_en_out <= 3'b0;
     end else begin
       // $display("reg2ip_en_in: %h", reg2ip_en_in);
@@ -56,16 +56,20 @@ module custom_axi_ip (
     end
   end
 
-  
-
   // Read logic would populate ip2reg based on internal state
   always_ff @(posedge clk_i) begin
-    ip2reg_data[0] <= reg3;
-    ip2reg_en[0]   <= 1'b1;  // Set data ready flag
-    ip2reg_data[1] <= reg4;
-    ip2reg_en[1]   <= 1'b1;
-    ip2reg_data[2] <= reg5;
-    ip2reg_en[2]   <= 1'b1;
+    if (!(reg2ip_en_in[2:0] & 3b'111)) begin
+      ip2reg_data[0] <= reg3;
+      ip2reg_en[0]   <= 1'b1;  // Set data ready flag
+      ip2reg_data[1] <= reg4;
+      ip2reg_en[1]   <= 1'b1;
+      ip2reg_data[2] <= reg5;
+      ip2reg_en[2]   <= 1'b1;
+    end else begin
+      ip2reg_en[0] <= 1'b0;
+      ip2reg_en[1] <= 1'b0;
+      ip2reg_en[2] <= 1'b0;
+    end
   end
 
 endmodule
