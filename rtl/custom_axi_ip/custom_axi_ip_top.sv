@@ -70,7 +70,8 @@ module custom_axi_ip_top
 
     // wiring signals between control unit and custom axi ip
     wire logic [2:0] reg2ip_data;
-    wire logic [2:0] reg2ip_en;
+    wire logic [2:0] reg2ip_en_in;
+    wire logic [2:0] reg2ip_en_out;
     wire logic [2:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
     wire logic [2:0] done_o;
@@ -78,7 +79,7 @@ module custom_axi_ip_top
     assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
     assign reg2ip_data[1] = reg_file_to_ip.regs[1].q;
     assign reg2ip_data[2] = reg_file_to_ip.regs[2].q;
-    assign reg2ip_en = reg_file_to_ip.enable.q;
+    assign reg2ip_en_in = reg_file_to_ip.enable.q;
 
     // Instantiate the custom AXI IP
     custom_axi_ip i_custom_axi_ip (
@@ -87,8 +88,8 @@ module custom_axi_ip_top
 
         // Register to Hardware interface
         .reg2ip_data(reg2ip_data),
-        .reg2ip_en(reg2ip_en),
-        .done_o(done_o),
+        .reg2ip_en_in(reg2ip_en_in),
+        .reg2ip_en_out(reg2ip_en_out),
         .ip2reg_data(ip2reg_data),
         .ip2reg_en(ip2reg_en)
     );
@@ -100,6 +101,6 @@ module custom_axi_ip_top
     assign ip_to_reg_file.regs[1].de = ip2reg_en[1];
     assign ip_to_reg_file.regs[2].de = ip2reg_en[2];
 
-    assign ip_to_reg_file.enable.d = done_o;
+    assign ip_to_reg_file.enable.d = reg2ip_en_out;
 
 endmodule

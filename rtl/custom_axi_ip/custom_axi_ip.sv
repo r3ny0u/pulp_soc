@@ -4,8 +4,8 @@ module custom_axi_ip (
 
     // Register to Hardware interface
     input  logic [2:0] reg2ip_data,
-    input  logic [2:0] reg2ip_en,
-    output logic [2:0] done_o,
+    input  logic [2:0] reg2ip_en_in_in,
+    output logic [2:0] reg2ip_en_in_out,
     output logic [2:0] ip2reg_data,
     output logic [2:0] ip2reg_en
 );
@@ -23,23 +23,23 @@ module custom_axi_ip (
       reg1 <= 32'h0;
       reg2 <= 32'h0;
     end else begin
-      // $display("reg2ip_en: %b", reg2ip_en);
+      // $display("reg2ip_en_in: %b", reg2ip_en_in);
       // Write to registers based on reg2ip inputs
-      if (reg2ip_en[0]) begin
+      if (reg2ip_en_in[0]) begin
         reg0 <= reg2ip_data[0];
-        done_o[0] <= 1'b1;
+        reg2ip_en_out[0] <= 1'b1;
         $display("reg0: %b", reg0);
       end
 
-      if (reg2ip_en[1]) begin 
+      if (reg2ip_en_in[1]) begin 
         reg1 <= reg2ip_data[1];
-        done_o[1] <= 1'b1;
+        reg2ip_en_out[1] <= 1'b1;
         $display("reg1: %b", reg1);
       end
 
-      if (reg2ip_en[2]) begin 
+      if (reg2ip_en_in[2]) begin
         reg2 <= reg2ip_data[2];
-        done_o[2] <= 1'b1;
+        reg2ip_en_out[2] <= 1'b1;
         $display("reg2: %b", reg2);
       end
     end
