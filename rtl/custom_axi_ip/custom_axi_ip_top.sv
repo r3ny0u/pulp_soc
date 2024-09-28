@@ -78,12 +78,13 @@ module custom_axi_ip_top
 
     // Debugging output for reg_file_to_ip
     initial begin
-        $display("Initial reg2ip_data: %h", reg_file_to_ip.regs[0].q);
+        $display("Initial reg2ip_data: %h", reg_file_to_ip.regs);
     end
 
-    assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
-    assign reg2ip_data[1] = reg_file_to_ip.regs[0].q;
-    assign reg2ip_data[2] = reg_file_to_ip.regs[0].q;
+    // assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
+    // assign reg2ip_data[1] = reg_file_to_ip.regs[0].q;
+    // assign reg2ip_data[2] = reg_file_to_ip.regs[0].q;
+    assign reg2ip_data = reg_file_to_ip.regs;
     assign reg2ip_en_in = reg_file_to_ip.enable.q;
 
     // Instantiate the custom AXI IP
@@ -99,13 +100,7 @@ module custom_axi_ip_top
         .ip2reg_en(ip2reg_en)
     );
 
-    assign ip_to_reg_file.regs[0].d = ip2reg_data[0];
-    assign ip_to_reg_file.regs[1].d = ip2reg_data[1];
-    assign ip_to_reg_file.regs[2].d = ip2reg_data[2];
-    assign ip_to_reg_file.regs[0].de = ip2reg_en[0];
-    assign ip_to_reg_file.regs[1].de = ip2reg_en[1];
-    assign ip_to_reg_file.regs[2].de = ip2reg_en[2];
-
-    assign ip_to_reg_file.enable.d = reg2ip_en_out;
+    assign ip_to_reg_file.regs = ip2reg_data;
+    assign ip_to_reg_file.enable = reg2ip_en_out;
 
 endmodule
