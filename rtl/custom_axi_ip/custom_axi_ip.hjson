@@ -32,6 +32,15 @@
             fields: [
                 { bits: "2:0" }
             ]
+        },
+        {
+            name: "STATUS",
+            desc: "Status register",
+            swaccess: "rw",
+            hwaccess: "hrw",
+            fields: [
+                { bits: "2:0" }
+            ]
         }
     ]
 }

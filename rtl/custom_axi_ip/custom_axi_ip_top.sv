@@ -70,9 +70,10 @@ module custom_axi_ip_top
 
     // wiring signals between control unit and custom axi ip
     wire logic [2:0] reg2ip_data;
-    reg logic [2:0] reg2ip_en;
+    wire logic [2:0] reg2ip_en;
     wire logic [2:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
+    wire logic [2:0] done_o;
 
     assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
     assign reg2ip_data[1] = reg_file_to_ip.regs[1].q;
@@ -87,6 +88,7 @@ module custom_axi_ip_top
         // Register to Hardware interface
         .reg2ip_data(reg2ip_data),
         .reg2ip_en(reg2ip_en),
+        .done_o(done_o),
         .ip2reg_data(ip2reg_data),
         .ip2reg_en(ip2reg_en)
     );
@@ -98,18 +100,6 @@ module custom_axi_ip_top
     assign ip_to_reg_file.regs[1].de = ip2reg_en[1];
     assign ip_to_reg_file.regs[2].de = ip2reg_en[2];
 
-    // Control logic to reset the enable signal
-    always_ff @(posedge clk_i or negedge rst_ni) begin
-        if (!rst_ni) begin
-            reg2ip_en <= 3'b0;  // Reset enable signal
-        end else begin
-            reg2ip_en <= reg_file_to_ip.enable.q;  // Capture enable signal from reg file
-
-            // Reset enable after a clock cycle (or based on your transaction completion condition)
-            if (reg2ip_en != 3'b0) begin
-                reg2ip_en <= 3'b0;  // Clear after using it
-            end
-        end
-    end
+    assign ip_to_reg_file.enable.d = done_o;
 
 endmodule

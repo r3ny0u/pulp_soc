@@ -7,62 +7,71 @@
 package custom_axi_ip_reg_pkg;
 
   // Address widths within the block
-  parameter int BlockAw = 4;
+  parameter int BlockAw = 5;
+
 
   ////////////////////////////
   // Typedefs for registers //
   ////////////////////////////
 
-  typedef struct packed {
-    logic [31:0] q;
-  } custom_axi_ip_reg2hw_regs_mreg_t;
+  typedef struct packed {logic [31:0] q;} custom_axi_ip_reg2hw_regs_mreg_t;
 
-  typedef struct packed {
-    logic [2:0]  q;
-  } custom_axi_ip_reg2hw_enable_reg_t;
+  typedef struct packed {logic [2:0] q;} custom_axi_ip_reg2hw_enable_reg_t;
+
+  typedef struct packed {logic [2:0] q;} custom_axi_ip_reg2hw_status_reg_t;
 
   typedef struct packed {
     logic [31:0] d;
-    logic        de;
+    logic de;
   } custom_axi_ip_hw2reg_regs_mreg_t;
 
   typedef struct packed {
-    logic [2:0]  d;
-    logic        de;
+    logic [2:0] d;
+    logic de;
   } custom_axi_ip_hw2reg_enable_reg_t;
+
+  typedef struct packed {
+    logic [2:0] d;
+    logic de;
+  } custom_axi_ip_hw2reg_status_reg_t;
 
   // Register -> HW type
   typedef struct packed {
-    custom_axi_ip_reg2hw_regs_mreg_t [2:0] regs; // [98:3]
-    custom_axi_ip_reg2hw_enable_reg_t enable; // [2:0]
+    custom_axi_ip_reg2hw_regs_mreg_t [2:0] regs;  // [101:6]
+    custom_axi_ip_reg2hw_enable_reg_t enable;  // [5:3]
+    custom_axi_ip_reg2hw_status_reg_t status;  // [2:0]
   } custom_axi_ip_reg2hw_t;
 
   // HW -> register type
   typedef struct packed {
-    custom_axi_ip_hw2reg_regs_mreg_t [2:0] regs; // [102:4]
-    custom_axi_ip_hw2reg_enable_reg_t enable; // [3:0]
+    custom_axi_ip_hw2reg_regs_mreg_t [2:0] regs;  // [106:8]
+    custom_axi_ip_hw2reg_enable_reg_t enable;  // [7:4]
+    custom_axi_ip_hw2reg_status_reg_t status;  // [3:0]
   } custom_axi_ip_hw2reg_t;
 
   // Register offsets
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_0_OFFSET = 4'h 0;
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_1_OFFSET = 4'h 4;
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_2_OFFSET = 4'h 8;
-  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_ENABLE_OFFSET = 4'h c;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_0_OFFSET = 5'h0;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_1_OFFSET = 5'h4;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_REGS_2_OFFSET = 5'h8;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_ENABLE_OFFSET = 5'hc;
+  parameter logic [BlockAw-1:0] CUSTOM_AXI_IP_STATUS_OFFSET = 5'h10;
 
   // Register index
   typedef enum int {
     CUSTOM_AXI_IP_REGS_0,
     CUSTOM_AXI_IP_REGS_1,
     CUSTOM_AXI_IP_REGS_2,
-    CUSTOM_AXI_IP_ENABLE
+    CUSTOM_AXI_IP_ENABLE,
+    CUSTOM_AXI_IP_STATUS
   } custom_axi_ip_id_e;
 
   // Register width information to check illegal writes
-  parameter logic [3:0] CUSTOM_AXI_IP_PERMIT [4] = '{
-    4'b 1111, // index[0] CUSTOM_AXI_IP_REGS_0
-    4'b 1111, // index[1] CUSTOM_AXI_IP_REGS_1
-    4'b 1111, // index[2] CUSTOM_AXI_IP_REGS_2
-    4'b 0001  // index[3] CUSTOM_AXI_IP_ENABLE
+  parameter logic [3:0] CUSTOM_AXI_IP_PERMIT[5] = '{
+      4'b1111,  // index[0] CUSTOM_AXI_IP_REGS_0
+      4'b1111,  // index[1] CUSTOM_AXI_IP_REGS_1
+      4'b1111,  // index[2] CUSTOM_AXI_IP_REGS_2
+      4'b0001,  // index[3] CUSTOM_AXI_IP_ENABLE
+      4'b0001  // index[4] CUSTOM_AXI_IP_STATUS
   };
 
 endpackage
