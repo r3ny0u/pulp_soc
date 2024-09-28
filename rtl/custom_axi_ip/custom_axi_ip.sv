@@ -64,18 +64,9 @@ module custom_axi_ip
 
   // Read logic would populate ip2reg based on internal state
   always_ff @(posedge clk_i) begin
-    if (!(reg2ip_en_in[2:0] & 3'b111)) begin
-    //   ip2reg_data[0] <= reg3;
-    //   ip2reg_en[0]   <= 1'b1;  // Set data ready flag
-    //   ip2reg_data[1] <= reg4;
-    //   ip2reg_en[1]   <= 1'b1;
-    //   ip2reg_data[2] <= reg5;
-    //   ip2reg_en[2]   <= 1'b1;
-    // end else begin
-    //   ip2reg_en[0] <= 1'b0;
-    //   ip2reg_en[1] <= 1'b0;
-    //   ip2reg_en[2] <= 1'b0;
+    if (reg2ip_en_in[2:0] == 3'b000) begin
       ip2reg_data <= {reg3, reg4, reg5};
+      ip2reg_en <= 3'b111;
     end
   end
 

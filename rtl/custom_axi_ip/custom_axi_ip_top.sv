@@ -6,7 +6,8 @@ module custom_axi_ip_top
         parameter int unsigned AXI_ADDR_WIDTH = 32,
         parameter int unsigned AXI_DATA_WIDTH = 32,
         parameter int unsigned AXI_ID_WIDTH,
-        parameter int unsigned AXI_USER_WIDTH
+        parameter int unsigned AXI_USER_WIDTH,
+        parameter int unsigned REG_DATA_WIDTH = 96
     )
     (
         input logic clk_i,        // Clock input
@@ -69,12 +70,11 @@ module custom_axi_ip_top
     );
 
     // wiring signals between control unit and custom axi ip
-    wire logic [2:0] reg2ip_data;
+    wire logic [REG_DATA_WIDTH-1:0] reg2ip_data;
     wire logic [2:0] reg2ip_en_in;
     wire logic [2:0] reg2ip_en_out;
-    wire logic [2:0] ip2reg_data;
+    wire logic [REG_DATA_WIDTH-1:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
-    wire logic [2:0] done_o;
 
     // Debugging output for reg_file_to_ip
     initial begin
@@ -85,7 +85,7 @@ module custom_axi_ip_top
     // assign reg2ip_data[1] = reg_file_to_ip.regs[0].q;
     // assign reg2ip_data[2] = reg_file_to_ip.regs[0].q;
     assign reg2ip_data = reg_file_to_ip.regs;
-    assign reg2ip_en_in = reg_file_to_ip.enable.q;
+    assign reg2ip_en_in = reg_file_to_ip.enable;
 
     // Instantiate the custom AXI IP
     custom_axi_ip i_custom_axi_ip (
