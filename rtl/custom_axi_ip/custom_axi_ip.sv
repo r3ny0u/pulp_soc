@@ -18,6 +18,7 @@ module custom_axi_ip (
   logic [31:0] reg4 = 32'h369C;
   logic [31:0] reg5 = 32'h48D0;
 
+
   // Write logic for registers
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -26,26 +27,27 @@ module custom_axi_ip (
       reg1 <= 32'h0;
       reg2 <= 32'h0;
     end else begin
-      // $display("reg2ip_en_in: %h", reg2ip_en_in);
+      $display("reg2ip_en_in: %h", reg2ip_en_in);
+      $display("reg2ip_en_out: %h", reg2ip_en_out);
       // Write to registers based on reg2ip inputs
       if (reg2ip_en_in[0]) begin
         reg0 <= reg2ip_data[0];
         reg2ip_en_out[0] <= 1'b1;
-        $display("reg2ip_en_in: %h", reg2ip_en_in);
+        // $display("reg2ip_en_in: %h", reg2ip_en_in);
         $display("reg0: %h", reg0);
       end
 
       if (reg2ip_en_in[1]) begin 
         reg1 <= reg2ip_data[1];
         reg2ip_en_out[1] <= 1'b1;
-        $display("reg2ip_en_in: %h", reg2ip_en_in);
+        // $display("reg2ip_en_in: %h", reg2ip_en_in);
         $display("reg1: %h", reg1);
       end
 
       if (reg2ip_en_in[2]) begin
         reg2 <= reg2ip_data[2];
         reg2ip_en_out[2] <= 1'b1;
-        $display("reg2ip_en_in: %h", reg2ip_en_in);
+        // $display("reg2ip_en_in: %h", reg2ip_en_in);
         $display("reg2: %h", reg2);
       end
     end
