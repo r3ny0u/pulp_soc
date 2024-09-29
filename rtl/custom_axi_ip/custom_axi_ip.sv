@@ -33,13 +33,17 @@ module custom_axi_ip
       // Write to registers based on reg2ip inputs
       if (reg2ip_en_in[0]) begin
         reg0 <= reg2ip_data[95:64];
+        reg1 <= reg2ip_data[63:32];
+        reg2 <= reg2ip_data[31:0];
         reg2ip_en_out <= {reg2ip_en_in & 3'b110, 1'b1};
         // $display("reg2ip_en_in: %h", reg2ip_en_in);
         // $display("reg2in_en_out: %h", reg2ip_en_out);
         $display("reg0: %h", reg0);
+        $display("reg1: %h", reg1);
+        $display("reg2: %h", reg2);
       end
 
-      if (reg2ip_en_in[0]) begin 
+      if (reg2ip_en_in[1]) begin 
         reg1 <= reg2ip_data[63:32];
         reg2ip_en_out <= {reg2ip_en_in & 3'b101, 1'b1};
         // $display("reg2ip_en_in: %h", reg2ip_en_in);
@@ -47,7 +51,7 @@ module custom_axi_ip
         $display("reg1: %h", reg1);
       end
 
-      if (reg2ip_en_in[0]) begin
+      if (reg2ip_en_in[2]) begin
         reg2 <= reg2ip_data[31:0];
         reg2ip_en_out <= {reg2ip_en_in & 3'b011, 1'b1};
         // $display("reg2ip_en_in: %h", reg2ip_en_in);
