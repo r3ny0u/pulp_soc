@@ -76,11 +76,6 @@ module custom_axi_ip_top
     wire logic [REG_DATA_WIDTH-1:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
 
-    // Debugging output for reg_file_to_ip
-    initial begin
-        $display("Initial reg2ip_data: %h", reg_file_to_ip.regs);
-    end
-
     // assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;
     // assign reg2ip_data[1] = reg_file_to_ip.regs[0].q;
     // assign reg2ip_data[2] = reg_file_to_ip.regs[0].q;
