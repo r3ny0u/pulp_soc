@@ -73,7 +73,7 @@ module custom_axi_ip_top
     wire logic [REG_DATA_WIDTH-1:0] reg2ip_data;
     wire logic [2:0] reg2ip_en_in;
     wire logic [2:0] reg2ip_en_out;
-    wire logic [REG_DATA_WIDTH-1:0] ip2reg_data;
+    wire logic [REG_DATA_WIDTH+2:0] ip2reg_data;
     wire logic [2:0] ip2reg_en;
 
     // assign reg2ip_data[0] = reg_file_to_ip.regs[0].q;

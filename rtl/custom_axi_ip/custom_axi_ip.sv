@@ -39,7 +39,7 @@ module custom_axi_ip
         $display("reg0: %h", reg0);
       end
 
-      if (reg2ip_en_in[1]) begin 
+      if (reg2ip_en_in[0]) begin 
         reg1 <= reg2ip_data[63:32];
         reg2ip_en_out <= {reg2ip_en_in & 3'b101, 1'b1};
         // $display("reg2ip_en_in: %h", reg2ip_en_in);
@@ -47,7 +47,7 @@ module custom_axi_ip
         $display("reg1: %h", reg1);
       end
 
-      if (reg2ip_en_in[2]) begin
+      if (reg2ip_en_in[0]) begin
         reg2 <= reg2ip_data[31:0];
         reg2ip_en_out <= {reg2ip_en_in & 3'b011, 1'b1};
         // $display("reg2ip_en_in: %h", reg2ip_en_in);
